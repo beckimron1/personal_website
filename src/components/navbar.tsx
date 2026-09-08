@@ -1,102 +1,50 @@
 ﻿'use client'
 
-import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
-import { portfolioData } from '@/data/portfolio'
+import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowUpRight, Menu, X } from 'lucide-react'
 
-const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#contact', label: 'Contact' },
-]
-
-const socialLinks = [
-  { href: portfolioData.contact.github, label: 'GitHub' },
-  { href: portfolioData.contact.linkedin, label: 'LinkedIn' },
+const links = [
+  { href: '/#projects', label: 'Selected work' },
+  { href: '/#about', label: 'About' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#contact', label: 'Let’s talk' },
 ]
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        toggleRef.current?.focus()
+      }
+    }
+    // Reset hidden mobile state when moving back to a desktop viewport.
+    const desktop = window.matchMedia('(min-width: 801px)')
+    const resize = () => { if (desktop.matches) setOpen(false) }
+    document.addEventListener('keydown', escape)
+    desktop.addEventListener('change', resize)
+    return () => {
+      document.removeEventListener('keydown', escape)
+      desktop.removeEventListener('change', resize)
+    }
+  }, [open])
 
   return (
-    <header className="sticky top-0 z-40 px-3 pt-4">
-      <div className="mx-auto max-w-6xl rounded-2xl border border-[var(--color-line)] bg-white/90 px-4 py-3 shadow-[0_12px_28px_rgba(15,23,42,0.08)] backdrop-blur">
-        <div className="flex items-center justify-between gap-3">
-          <a
-            href="#home"
-            className="text-sm font-semibold tracking-wide text-[var(--color-brand-strong)] sm:text-base"
-            onClick={() => setMenuOpen(false)}
-          >
-            {portfolioData.name}
-          </a>
-
-          <nav className="hidden items-center gap-2 md:flex">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
-              >
-                {item.label}
-              </a>
-            ))}
-            <div className="ml-1 hidden items-center gap-2 lg:flex">
-              {socialLinks.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-lg border border-[var(--color-line)] px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-[var(--color-brand)] hover:text-[var(--color-brand-strong)]"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </nav>
-
-          <button
-            type="button"
-            className="rounded-lg border border-[var(--color-line)] p-2 text-slate-700 md:hidden"
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((prev) => !prev)}
-          >
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+    <>
+      <a href="#main-content" className="skip-link" onClick={() => setOpen(false)}>Skip to content</a>
+      <header className="site-header">
+        <div className="nav-inner page-width">
+          <Link href="/" className="wordmark" onClick={() => setOpen(false)}><span className="logo-mark" aria-hidden="true">ia</span>Imronbek Abduvaliev</Link>
+          <nav className="desktop-nav" aria-label="Main navigation">{links.map((link) => <Link key={link.href} href={link.href} className={link.href === '/#contact' ? 'nav-contact' : ''}>{link.label}{link.href === '/#contact' && <ArrowUpRight size={15} aria-hidden="true" />}</Link>)}</nav>
+          <button className="menu-toggle" ref={toggleRef} type="button" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}Menu</button>
         </div>
-
-        {menuOpen ? (
-          <div className="mt-3 grid gap-2 border-t border-[var(--color-line)] pt-3 md:hidden">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
-                onClick={() => setMenuOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
-            <div className="mt-2 grid gap-2">
-              {socialLinks.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-lg border border-[var(--color-line)] px-3 py-2 text-sm font-medium text-slate-700"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </header>
+        {open && <nav id="mobile-navigation" className="mobile-nav page-width" aria-label="Mobile navigation">{links.map((link) => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>)}</nav>}
+      </header>
+    </>
   )
 }
