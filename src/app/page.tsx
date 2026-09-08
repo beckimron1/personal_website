@@ -1,321 +1,100 @@
-﻿'use client'
-
-import { motion } from 'framer-motion'
-import {
-  ArrowUpRight,
-  BriefcaseBusiness,
-  Cpu,
-  Github,
-  GraduationCap,
-  Linkedin,
-  MapPin,
-  Rocket,
-  Sparkles,
-} from 'lucide-react'
+﻿import Link from 'next/link'
+import { ArrowDown, ArrowUpRight } from 'lucide-react'
 import { portfolioData } from '@/data/portfolio'
-
-const sectionTransition = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.22 },
-  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
-}
-
-const heroMetrics = [
-  { label: 'Primary Focus', value: 'Full-Stack Product Engineering' },
-  { label: 'Domain Blend', value: 'Backend, Vision, Data Systems' },
-  { label: 'Current Path', value: 'Startup and Real-World Tools' },
-]
+import { work } from '@/data/work'
+import ProjectCover from '@/components/project-cover'
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-6xl space-y-9 pb-12 pt-6 md:space-y-12 md:pt-8">
-      <motion.section
-        id="home"
-        className="section-shell p-6 md:p-10"
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-      >
-        <div className="grid items-start gap-8 lg:grid-cols-[1.25fr_0.95fr]">
-          <div className="space-y-5">
-            <span className="pill floating-pill">
-              <Sparkles className="h-3.5 w-3.5" />
-              {portfolioData.availability}
-            </span>
-
-            <div className="space-y-3">
-              <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
-                {portfolioData.name}
-              </h1>
-              <p className="max-w-3xl text-lg text-slate-700">{portfolioData.headline}</p>
-              <p className="max-w-3xl section-copy">{portfolioData.mission}</p>
+    <>
+      <section id="home" className="hero page-width" aria-labelledby="hero-heading">
+        <div className="hero-topline eyebrow">
+          <span>Independent thinking. Practical engineering.</span>
+          <span className="location">Tucson, Arizona <span aria-hidden="true">↗</span></span>
+        </div>
+        <div className="hero-grid">
+          <div className="hero-copy">
+            <p className="intro-label">Hello, I’m Imronbek <span className="quiet">— you can call me Beck.</span></p>
+            <h1 id="hero-heading">Ideas into<br /><em>useful</em> software<span className="accent-period">.</span></h1>
+            <p className="hero-description">Full-stack developer and computer science student. I build products that connect thoughtful engineering with the way people actually work.</p>
+            <div className="hero-actions">
+              <a className="button button-dark" href="#projects">Explore my work <ArrowDown size={17} aria-hidden="true" /></a>
+              <a className="text-link" href={portfolioData.contact.resume} target="_blank" rel="noreferrer">Download résumé <ArrowUpRight size={18} aria-hidden="true" /></a>
             </div>
-
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              <a href="#projects" className="primary-button">
-                View Projects
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
-              <a
-                href={portfolioData.contact.resume}
-                target="_blank"
-                rel="noreferrer"
-                className="secondary-button"
-              >
-                Resume
-              </a>
-              <a
-                href={portfolioData.contact.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="secondary-button"
-              >
-                Connect on LinkedIn
-              </a>
-            </div>
-
-            <div className="soft-divider" />
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="metric-card">
-                <p className="metric-label">Education</p>
-                <p className="metric-value flex items-center gap-2 text-sm sm:text-base">
-                  <GraduationCap className="h-4 w-4 text-[var(--color-brand-strong)]" />
-                  {portfolioData.education}
-                </p>
-              </div>
-              <div className="metric-card">
-                <p className="metric-label">Location</p>
-                <p className="metric-value flex items-center gap-2 text-sm sm:text-base">
-                  <MapPin className="h-4 w-4 text-[var(--color-brand-strong)]" />
-                  {portfolioData.location}
-                </p>
-              </div>
-            </div>
+            <p className="availability"><span className="status-dot" aria-hidden="true" />Open to internships &amp; startup collaborations</p>
           </div>
-
-          <div className="card-grid">
-            {heroMetrics.map((item) => (
-              <div key={item.label} className="metric-card">
-                <p className="metric-label">{item.label}</p>
-                <p className="metric-value">{item.value}</p>
-              </div>
-            ))}
-            <div className="rounded-2xl border border-[var(--color-line)] bg-white px-4 py-4">
-              <p className="metric-label">Current Roles</p>
-              <ul className="mt-3 space-y-2 text-sm text-slate-700">
-                <li className="flex items-start gap-2">
-                  <BriefcaseBusiness className="mt-0.5 h-4 w-4 text-[var(--color-brand)]" />
-                  Co-Founder at TTLK
-                </li>
-                <li className="flex items-start gap-2">
-                  <BriefcaseBusiness className="mt-0.5 h-4 w-4 text-[var(--color-brand)]" />
-                  Student Ambassador + Undergraduate TA
-                </li>
-                <li className="flex items-start gap-2">
-                  <Cpu className="mt-0.5 h-4 w-4 text-[var(--color-brand)]" />
-                  Backend and Computer Vision Internship Experience
-                </li>
-              </ul>
-            </div>
+          <div className="identity-panel" aria-label="Personal mark: IA. Engineering with a product mindset.">
+            <div className="identity-top eyebrow"><span>Personal portfolio</span><span>IA / 01</span></div>
+            <div className="monogram" aria-hidden="true">i<span>a</span><span className="monogram-dot" /></div>
+            <div className="identity-bottom"><p>Engineering with<br /><em>a product mindset.</em></p><span className="identity-star" aria-hidden="true">✳</span></div>
           </div>
         </div>
-      </motion.section>
-
-      <motion.section id="about" className="section-shell p-6 md:p-10" {...sectionTransition}>
-        <div className="space-y-5">
-          <h2 className="section-heading">About</h2>
-          <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
-            <div className="space-y-4">
-              {portfolioData.about.map((paragraph) => (
-                <p key={paragraph.slice(0, 25)} className="section-copy">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <div className="card-grid">
-              {portfolioData.highlights.map((item) => (
-                <div key={item.slice(0, 24)} className="timeline-card">
-                  <p className="text-sm leading-relaxed text-slate-700">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="context-strip">
+          <p><span className="eyebrow">Learning</span>Computer Science · University of Arizona</p>
+          <p><span className="eyebrow">Building</span>Full-stack products &amp; AI experiences</p>
+          <p><span className="eyebrow">Connecting</span>Engineering, research &amp; startups</p>
         </div>
-      </motion.section>
+      </section>
 
-      <motion.section id="experience" className="section-shell p-6 md:p-10" {...sectionTransition}>
-        <div className="space-y-5">
-          <h2 className="section-heading">Experience</h2>
-          <div className="card-grid lg:grid-cols-2">
-            {portfolioData.experiences.map((experience) => (
-              <article key={`${experience.role}-${experience.organization}`} className="timeline-card space-y-3">
-                <div className="space-y-1">
-                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-brand-strong)]">
-                    {experience.period}
-                  </p>
-                  <h3 className="text-xl font-semibold">{experience.role}</h3>
-                  <p className="text-sm text-slate-700">{experience.organization}</p>
-                </div>
-                <ul className="space-y-2 text-sm text-slate-700">
-                  {experience.description.map((line) => (
-                    <li key={line.slice(0, 20)} className="flex items-start gap-2">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-accent)]" />
-                      <span>{line}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      <motion.section id="projects" className="section-shell p-6 md:p-10" {...sectionTransition}>
-        <div className="space-y-5">
-          <h2 className="section-heading">Selected Projects</h2>
-          <div className="card-grid lg:grid-cols-3">
-            {portfolioData.projects.map((project) => (
-              <article key={project.name} className="project-card space-y-4">
-                <div className="space-y-2">
-                  <h3 className="text-xl font-semibold leading-tight">{project.name}</h3>
-                  <p className="text-sm leading-relaxed text-slate-700">{project.summary}</p>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {project.stack.map((skill) => (
-                    <span key={skill} className="chip">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-
-                <ul className="space-y-2 text-sm text-slate-700">
-                  {project.highlights.map((item) => (
-                    <li key={item.slice(0, 26)} className="flex items-start gap-2">
-                      <Rocket className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-brand)]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      <motion.section id="skills" className="section-shell p-6 md:p-10" {...sectionTransition}>
-        <div className="space-y-5">
-          <h2 className="section-heading">Technical Stack</h2>
-          <div className="card-grid md:grid-cols-2">
-            {portfolioData.skills.map((group) => (
-              <article key={group.title} className="timeline-card space-y-3">
-                <h3 className="text-lg font-semibold">{group.title}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <span key={item} className="chip">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      <motion.section id="contact" className="section-shell p-6 md:p-10" {...sectionTransition}>
-        <div className="space-y-5">
-          <h2 className="section-heading">Contact</h2>
-          <p className="section-copy max-w-3xl">
-            I am always open to connecting with people working on interesting products, startups, and technical
-            challenges.
-          </p>
-
-          <div className="card-grid md:grid-cols-4">
-            <a href={portfolioData.contact.github} target="_blank" rel="noreferrer" className="contact-card p-4">
-              <div className="flex items-center gap-3">
-                <Github className="h-5 w-5 text-[var(--color-brand-strong)]" />
-                <div>
-                  <p className="text-sm font-semibold">GitHub</p>
-                  <p className="text-xs text-slate-600">{portfolioData.contact.github.replace('https://', '')}</p>
-                </div>
+      <section id="projects" className="work-section page-width" aria-labelledby="work-heading">
+        <div className="section-topline"><span className="eyebrow">01 / Selected work</span><span className="eyebrow quiet">From interface to infrastructure</span></div>
+        <div className="section-intro"><h2 id="work-heading">Built for <em>real life.</em></h2><p>Booking workflows, computer vision, and research operations. Different problems. The same practical mindset.</p></div>
+        <div className="project-list">
+          {work.map((project, index) => (
+            <article className={`work-card ${index === 0 ? 'work-featured' : ''}`} key={project.slug}>
+              <Link href={`/work/${project.slug}`} className="cover-link" aria-label={`Read case study: ${project.name}`}>
+                <ProjectCover project={project} index={index} />
+                <span className="cover-action" aria-hidden="true"><ArrowUpRight size={23} /></span>
+              </Link>
+              <div className="work-info">
+                <p className="eyebrow work-category">{project.category}</p>
+                <h3><Link href={`/work/${project.slug}`}>{project.name}</Link></h3>
+                <p>{project.summary}</p>
+                <ul className="tags" aria-label={`${project.name} technologies`}>{project.stack.slice(0, 4).map((item) => <li key={item}>{item}</li>)}</ul>
+                <Link className="text-link case-link" href={`/work/${project.slug}`}>Read project notes <ArrowUpRight size={17} aria-hidden="true" /><span className="sr-only">: {project.name}</span></Link>
               </div>
-            </a>
+            </article>
+          ))}
+        </div>
+      </section>
 
-            <a
-              href={portfolioData.contact.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="contact-card p-4"
-            >
-              <div className="flex items-center gap-3">
-                <Linkedin className="h-5 w-5 text-[var(--color-brand-strong)]" />
-                <div>
-                  <p className="text-sm font-semibold">LinkedIn</p>
-                  <p className="text-xs text-slate-600">imronbek-abduvaliyev</p>
-                </div>
-              </div>
-            </a>
-
-            <a
-              href={portfolioData.contact.resume}
-              target="_blank"
-              rel="noreferrer"
-              className="contact-card p-4"
-            >
-              <div className="flex items-center gap-3">
-                <div className="rounded-full bg-[var(--color-accent-soft)] p-2 text-[var(--color-brand-strong)]">
-                  CV
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">Resume</p>
-                  <p className="text-xs text-slate-600">Download PDF</p>
-                </div>
-              </div>
-            </a>
-
-            {portfolioData.contact.email ? (
-              <a href={`mailto:${portfolioData.contact.email}`} className="contact-card p-4">
-                <div className="flex items-center gap-3">
-                  <div className="rounded-full bg-[var(--color-accent-soft)] p-2">
-                    <span className="text-[var(--color-brand-strong)]">@</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold">Email</p>
-                    <p className="text-xs text-slate-600">{portfolioData.contact.email}</p>
-                  </div>
-                </div>
-              </a>
-            ) : (
-              <div className="contact-card p-4">
-                <div className="flex items-center gap-3">
-                  <div className="rounded-full bg-[var(--color-accent-soft)] p-2">
-                    <span className="text-[var(--color-brand-strong)]">@</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold">Email</p>
-                    <p className="text-xs text-slate-600">Share preferred email to add a direct mail link.</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div>
-            <a
-              href={portfolioData.contact.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="external-link"
-            >
-              Start a Conversation
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
+      <section id="about" className="about-section" aria-labelledby="about-heading">
+        <div className="page-width about-grid">
+          <div><p className="eyebrow">02 / A little about me</p><h2 id="about-heading">Curious by nature.<br /><em>Builder by choice.</em></h2><div className="about-signature" aria-hidden="true">Imronbek.</div></div>
+          <div className="about-copy">
+            <p className="about-lede">I like the space between<br className="desktop-break" /> “what if” and <em>“it works.”</em></p>
+            <p>{portfolioData.about[0]}</p><p>{portfolioData.about[1]}</p>
+            <a href={portfolioData.contact.linkedin} className="text-link" target="_blank" rel="noreferrer">More about my background <ArrowUpRight size={17} aria-hidden="true" /></a>
           </div>
         </div>
-      </motion.section>
-    </div>
+      </section>
+
+      <section id="experience" className="experience-section page-width" aria-labelledby="experience-heading">
+        <div className="section-topline"><span className="eyebrow">03 / Experience</span></div>
+        <div className="section-intro"><h2 id="experience-heading">A few places<br />I’ve <em>contributed.</em></h2><p>From early-stage products to research labs and the classroom.</p></div>
+        <div className="experience-list">
+          {portfolioData.experiences.map((experience, index) => (
+            <article className="experience-row" key={experience.organization}>
+              <span className="experience-number eyebrow" aria-hidden="true">0{index + 1}</span>
+              <div className="experience-title"><h3>{experience.organization}</h3><p>{experience.role}</p></div>
+              <ul>{experience.description.map((line) => <li key={line}>{line}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="skills" className="skills-section page-width" aria-labelledby="skills-heading">
+        <div className="skills-intro"><p className="eyebrow">04 / The toolkit</p><h2 id="skills-heading">The right tools.<br /><em>Not just more tools.</em></h2><p>Across the interface, the API, and the data behind it.</p></div>
+        <div className="skill-list">{portfolioData.skills.map((group) => <div className="skill-row" key={group.title}><h3>{group.title}</h3><p>{group.items.join(' / ')}</p></div>)}</div>
+      </section>
+
+      <section id="contact" className="contact-section" aria-labelledby="contact-heading">
+        <div className="page-width">
+          <div className="contact-top eyebrow"><span>05 / Let’s connect</span><span className="contact-availability"><span className="status-dot" aria-hidden="true" /> Open to opportunities</span></div>
+          <div className="contact-grid"><h2 id="contact-heading">Have something<br /><em>worth building?</em></h2><div><p>I’m interested in software engineering internships, thoughtful product teams, and people turning ambitious ideas into useful things.</p><a className="button button-lime" href={portfolioData.contact.email ? `mailto:${portfolioData.contact.email}` : portfolioData.contact.linkedin}>Let’s talk <ArrowUpRight size={20} aria-hidden="true" /></a></div></div>
+          <div className="contact-bottom"><a className="contact-email" href={portfolioData.contact.email ? `mailto:${portfolioData.contact.email}` : portfolioData.contact.linkedin}>{portfolioData.contact.email || 'Connect on LinkedIn'}</a><div className="social-links"><a href={portfolioData.contact.github} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={16} aria-hidden="true" /></a><a href={portfolioData.contact.linkedin} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={16} aria-hidden="true" /></a></div></div>
+        </div>
+      </section>
+    </>
   )
 }
